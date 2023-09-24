@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @unique @default(uuid())
+  name      String
+  email     String     @unique
+  username  String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  levelId   String
+  level     Level      @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  BookLoan  BookLoan[]
+  Book      Book[]
+}
+
+model Book {
+  id             String       @id @unique @default(uuid())
+  title          String
+  desc           String
+  bookCategoryId String
+  authorId       String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  bookCategory   BookCategory @relation(fields: [bookCategoryId], references: [id], onDelete: Cascade)
+  author         User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model Level {
+  id   String @id @unique @default(uuid())
+  name String
+  User User[]
+}
+
+model BookCategory {
+  id        String   @id @unique @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Book      Book[]
+}
+
+model BookLoan {
+  id        String   @id @unique @default(uuid())
+  userId    String
+  bookId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
