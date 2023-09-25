@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const userService = require('./user.service');
 
 async function getAllUsers(req, res) {
