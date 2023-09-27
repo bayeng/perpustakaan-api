@@ -18,7 +18,17 @@ async function findAllBooks() {
 }
 
 async function findBookById(id) {
-  const getBook = await prisma.book.findUnique({ where: { id } });
+  const getBook = await prisma.book.findUnique({
+    where: { id },
+    include: {
+      author: {
+        select: { name: true },
+      },
+      bookCategory: {
+        select: { name: true },
+      },
+    },
+  });
 
   if (!getBook) {
     throw new ApiError(404, 'book not found', true);

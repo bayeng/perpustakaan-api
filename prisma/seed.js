@@ -3,23 +3,23 @@
 const prisma = require('./prismaClient');
 
 async function main() {
-  seedBookCategory();
   seedLevel();
 }
 
-async function seedBookCategory() {
-  const bookCategory = await prisma.bookCategory.create({
-    data: {
-      name: 'thriler',
-    },
-  });
-  console.log(bookCategory);
-}
+// async function seedBookCategory() {
+//   const bookCategory = await prisma.bookCategory.create({
+//     data: {
+//       name: 'thriler',
+//     },
+//   });
+//   console.log(bookCategory);
+// }
 
 async function seedLevel() {
   const level = await prisma.level.create({
     data: {
-      name: 'author',
+      id: 'level1',
+      name: 'admin',
     },
   });
   console.log(level);

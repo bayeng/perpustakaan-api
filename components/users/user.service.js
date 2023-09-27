@@ -1,7 +1,9 @@
 /* eslint-disable no-use-before-define */
 const passwordHash = require('password-hash');
+const jwt = require('jsonwebtoken');
 const prisma = require('../../prisma/prismaClient');
 const { ApiError } = require('../../helper/apiError');
+const { generateAccessToken } = require('../../helper/jwt');
 
 async function findUserById(id) {
   const userByid = await prisma.user.findUnique({
@@ -55,6 +57,8 @@ async function registerUser(body) {
       ...newData,
     },
   });
+
+  newUserData.token = generateAccessToken(newUserData);
 
   return newUserData;
 }

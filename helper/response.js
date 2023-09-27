@@ -5,12 +5,34 @@ function responseError(res, error) {
   });
 }
 
-function responseStatusOk(res, status, entity, message) {
+function bookResponseStatusOk(res, status, book, message) {
+  if (book.length > 1) {
+    return res.status(status).json({
+      status: 'OK',
+      message,
+      books: book,
+    });
+  }
   return res.status(status).json({
     status: 'OK',
     message,
-    data: { entity },
+    book,
   });
 }
 
-module.exports = { responseError, responseStatusOk };
+function bookLoanResponseStatusOk(res, status, bookLoan, message) {
+  if (bookLoan.length > 1) {
+    return res.status(status).json({
+      status: 'OK',
+      message,
+      booksLoan: bookLoan,
+    });
+  }
+  return res.status(status).json({
+    status: 'OK',
+    message,
+    bookLoan,
+  });
+}
+
+module.exports = { responseError, bookResponseStatusOk, bookLoanResponseStatusOk };

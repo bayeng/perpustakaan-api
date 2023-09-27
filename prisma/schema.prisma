@@ -19,6 +19,7 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   levelId   String
+  token     String?
   level     Level      @relation(fields: [levelId], references: [id], onDelete: Cascade)
   BookLoan  BookLoan[]
   Book      Book[]
@@ -34,6 +35,7 @@ model Book {
   updatedAt      DateTime     @updatedAt
   bookCategory   BookCategory @relation(fields: [bookCategoryId], references: [id], onDelete: Cascade)
   author         User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  BookLoan       BookLoan[]
 }
 
 model Level {
@@ -51,9 +53,10 @@ model BookCategory {
 }
 
 model BookLoan {
-  id        String   @id @unique @default(uuid())
-  userId    String
-  bookId    String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String   @id @unique @default(uuid())
+  userId      String
+  bookId      String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book        Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
 }
